@@ -1,0 +1,68 @@
+{
+  "variables": {
+    "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+    "aws_region": "",
+    "aws_vpc": "",
+    "aws_subnet": "",
+    "ami_name": "",
+    "ami_description": "",
+    "builder_name": "",
+    "tarball": ""
+  },
+  "builders": [
+    {
+      "type": "amazon-ebssurrogate",
+      "name": "arch-ec2-builder",
+      "region": "{{user `aws_region`}}",
+      "vpc_id": "{{user `aws_vpc`}}",
+      "subnet_id": "{{user `aws_subnet`}}",
+      "source_ami": "ami-035c67e6a9ef8f024",
+      "instance_type": "t2.micro",
+      "force_deregister": true,
+      "ssh_username": "admin",
+      "encrypt_boot": true,
+      "ami_name": "{{user `ami_name`}}",
+      "ami_description": "{{user `ami_description`}}",
+      "ami_regions": ["{{user `aws_region`}}"],
+      "ami_virtualization_type": "hvm",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "launch_block_device_mappings" : [
+        {
+          "volume_type" : "gp2",
+          "device_name" : "/dev/xvdf",
+          "delete_on_termination" : false,
+          "volume_size" : 4
+        }
+      ],
+      "ami_root_device": {
+        "source_device_name": "/dev/xvdf",
+        "device_name": "/dev/xvda",
+        "delete_on_termination": true,
+        "volume_size": 16,
+        "volume_type": "gp2"
+      },
+      "run_tags": {
+        "Name": "{{user `builder_name`}}"
+      },
+      "run_volume_tags": {
+        "Name": "{{user `builder_name`}}"
+      },
+      "tags": {
+        "Name": "{{user `ami_name`}}"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "{{user `tarball`}}",
+      "destination": "/tmp/archbase.tar.gz"
+    },
+    {
+      "type": "shell",
+      "script": "./provision.sh"
+    }
+  ]
+}
