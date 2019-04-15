@@ -195,10 +195,12 @@ should cover the most common use cases:
    the network ACLs allow SSH)
 
 There is most likely a bunch of advanced stuff that will not work out of the
-box with this AMI. But if you have read and understood the source, you should
-see that getting something to run on EC2 is no magic. If you have a use case
-that seems reasonably "general" but doesn't work with the AMI, feel free to
-create an issue.
+box with this AMI. One prominent case would be
+[ENA](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking-ena.html),
+for which special kernel modules are necessary. But if you have read and
+understood the source, you should see that getting something to run on EC2 is
+no magic. If you have a use case that seems reasonably "general" but doesn't
+work with the AMI, feel free to create an issue.
 
 [^1]: Yes, I am aware that there are Arch Linux AMIs out there, but this is about
       learning how to do it, of course.
