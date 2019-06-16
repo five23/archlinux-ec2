@@ -132,10 +132,10 @@ other. Never use both, of course.
 
 ###  Build AUR packages
 
-Even though both are entirely optional, we will add two packages from AUR to
-our final system in order to make the result more usable as a general purpose
-AMI. In order to this, we will build that packages from source and include them
-in the tarball.
+Even though they are all entirely optional, we will add two packages from AUR
+to our final system in order to make the result more usable as a general
+purpose AMI. In order to this, we will build that packages from source and
+include them in the tarball.
 
 #### growpart
 
@@ -188,6 +188,7 @@ will just take a while and you will end up with a fresh Arch Linux AMI!
 If everything was successful, you have an almost vanilla Arch Linux AMI that
 should cover the most common use cases:
 
+ * Networking hardware supported on most common instance types
  * The network is configured via DHCP (the default)
  * The root file system will be resized to the size of the instances primary
    EBS volume on first launch
@@ -195,12 +196,10 @@ should cover the most common use cases:
    the network ACLs allow SSH)
 
 There is most likely a bunch of advanced stuff that will not work out of the
-box with this AMI. One prominent case would be
-[ENA](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking-ena.html),
-for which special kernel modules are necessary. But if you have read and
-understood the source, you should see that getting something to run on EC2 is
-no magic. If you have a use case that seems reasonably "general" but doesn't
-work with the AMI, feel free to create an issue.
+box with this AMI.  But if you have read and understood the source, you should
+see that getting something to run on EC2 is no magic. If you have a use case
+that seems reasonably "general" but doesn't work with the AMI, feel free to
+create an issue.
 
 [^1]: Yes, I am aware that there are Arch Linux AMIs out there, but this is about
       learning how to do it, of course.

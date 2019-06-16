@@ -29,11 +29,14 @@ TARBALL = archbase.tar.gz
 TMP     = ./target
 PKGS    = ./pkgs
 
+# If you add or remove packages here, also add/remove them in provision.sh
+PACKAGES = $(PKGS)/cloud-init.pkg.tar.xz $(PKGS)/growpart.pkg.tar.xz
+
 # End of variables. Feel free to study the rest, but it "should" just work...
 
 tarball: $(TARBALL)
 
-packages: $(PKGS)/cloud-init.pkg.tar.xz $(PKGS)/growpart.pkg.tar.xz
+packages: $(PACKAGES)
 
 $(PKGS)/%.pkg.tar.xz:
 	mkdir -p "$(PKGS)"
@@ -43,7 +46,7 @@ $(PKGS)/%.pkg.tar.xz:
 	cd "$(PKGS)/$*" && makepkg -f
 	cp "$(PKGS)/$*/$*-"*".pkg.tar.xz" "$@"
 
-$(TARBALL): $(PKGS)/cloud-init.pkg.tar.xz $(PKGS)/growpart.pkg.tar.xz
+$(TARBALL): $(PACKAGES)
 	pacstrap -c $(TMP) base base-devel arch-install-scripts sudo 
 	echo "en_US.UTF-8 UTF-8" >> $(TMP)/etc/locale.gen
 	echo "LANG=en_US.UTF-8" >> $(TMP)/etc/locale.conf

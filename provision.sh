@@ -43,7 +43,7 @@ sudo mount /dev/xvdf2 arch/mnt
 
 # By running `sudo chroot arch ...` we now have access to a fully funtional Arch system.
 # Bootstrap a minimal system onto the empty partition.
-sudo chroot arch pacstrap -c /mnt base grub lsb-release python2 sudo openssh net-tools binutils 
+sudo chroot arch pacstrap -c /mnt base grub lsb-release python2 sudo openssh net-tools binutils
 sudo chroot arch genfstab -U /mnt | sudo tee arch/mnt/etc/fstab
 
 # Set up a proper locale. Feel free to adjust to your liking. See the Arch
@@ -87,10 +87,12 @@ sudo chroot arch arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 # the exact interfaces you want to bring up in advance (as opposed to using
 # wildcards, see systemd-networkd setup for comparison). Note that the network
 # config will result in failure if you try to bring up a non-existing
-# interface.
+# interface. This also currently makes the netctl approach incompatible with
+# enhanced networking (ENA) instance types, as the driver will rename the
+# interface to ensX.
 #
 # As such, use the netctl setup if you understand these limitations and know
-# you can live with them.  The plus side is better compatibility if you plan to
+# you can live with them. The plus side is better compatibility if you plan to
 # use (near-)identical images in other cloud environments where the network is
 # configured by cloud-init (like OpenStack).
 
@@ -110,7 +112,7 @@ sudo chroot arch arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 # BEGIN Network config - systemd-networkd section
 sudo tee arch/mnt/etc/systemd/network/default.network <<EOF
 [Match]
-Name=eth*
+Name=e*
 
 [Network]
 DHCP=yes
