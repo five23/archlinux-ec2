@@ -81,15 +81,15 @@ sudo chroot arch arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 # Network config - use only one of the netctl or systemd-networkd sections!
 #
 
-# The cloud-init Arch module uses netctl for network configuration. However, on
-# EC2 cloud-init does not actually handle the network config. In terms of
-# functionality, the netctl setup is slightly less flexible - you need to know
-# the exact interfaces you want to bring up in advance (as opposed to using
-# wildcards, see systemd-networkd setup for comparison). Note that the network
-# config will result in failure if you try to bring up a non-existing
-# interface. This also currently makes the netctl approach incompatible with
-# enhanced networking (ENA) instance types, as the driver will rename the
-# interface to ensX.
+# The cloud-init Arch module uses netctl for network configuration. However, in
+# it's current state, cloud-init on Arch does not actually handle the network
+# config properly. In terms of functionality, the netctl setup is slightly less
+# flexible - you need to know the exact interfaces you want to bring up in
+# advance (as opposed to using wildcards, see systemd-networkd setup for
+# comparison). Note that the network config will result in failure if you try
+# to bring up a non-existing interface. This also currently makes the netctl
+# approach incompatible with enhanced networking (ENA) instance types, as the
+# driver will rename the interface to ensX.
 #
 # As such, use the netctl setup if you understand these limitations and know
 # you can live with them. The plus side is better compatibility if you plan to
