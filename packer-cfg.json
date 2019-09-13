@@ -17,7 +17,7 @@
       "region": "{{user `aws_region`}}",
       "vpc_id": "{{user `aws_vpc`}}",
       "subnet_id": "{{user `aws_subnet`}}",
-      "source_ami": "ami-035c67e6a9ef8f024",
+      "source_ami": "{{user `source_ami`}}",
       "instance_type": "t2.micro",
       "force_deregister": true,
       "ssh_username": "admin",
