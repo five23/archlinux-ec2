@@ -28,6 +28,10 @@ AMI_DESCRIPTION ?= Arch Linux AMI built with Packer.io ebssurrogate builder
 # Name tag for instance and volumes used to build the AMI
 BUILDER_NAME    ?= archlinux-custom-ami-builder
 
+# How to build the AUR packages. Could be `makepkg` or `makechrootpkg`, can
+# include arguments (e.g. chroot location).
+MAKEPKG         ?= makepkg
+
 # Probably no need to change any of these
 TARBALL = archbase.tar.gz
 TMP     = ./target
@@ -47,7 +51,7 @@ $(PKGS)/%.pkg.tar.xz:
 	cd "$(PKGS)" && ( test -d "$*" || git clone https://aur.archlinux.org/$*.git )
 	rm -f "$(PKGS)/$*/$*-*.pkg.tar.xz"
 	cd "$(PKGS)/$*" && git pull
-	cd "$(PKGS)/$*" && makepkg -f
+	cd "$(PKGS)/$*" && $(MAKEPKG)
 	cp "$(PKGS)/$*/$*-"*".pkg.tar.xz" "$@"
 
 $(TARBALL): $(PACKAGES)
