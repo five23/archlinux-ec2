@@ -9,20 +9,20 @@
 
 # The AWS region/vpc/subnet in which to build the AMI. If you want the AMI to
 # be build for multiple regions, please edit the packer config itself.
-AWS_REGION      = eu-west-1
-AWS_VPC         = vpc-1234abcd
-AWS_SUBNET      = subnet-1234abcd
+AWS_REGION      ?= eu-west-1
+AWS_VPC         ?= vpc-1234abcd
+AWS_SUBNET      ?= subnet-1234abcd
 
 # A name for your AMI. Constraints: 3-128 alphanumeric characters, parentheses
 # (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-),
 # single quotes ('), at-signs (@), or underscores(_)
-AMI_NAME        = archlinux-custom-ami
+AMI_NAME        ?= archlinux-custom-ami
 
 # A brief description of the AMI
-AMI_DESCRIPTION = Arch Linux AMI built with Packer.io ebssurrogate builder
+AMI_DESCRIPTION ?= Arch Linux AMI built with Packer.io ebssurrogate builder
 
 # Name tag for instance and volumes used to build the AMI
-BUILDER_NAME    = archlinux-custom-ami-builder
+BUILDER_NAME    ?= archlinux-custom-ami-builder
 
 # Probably no need to change any of these
 TARBALL = archbase.tar.gz
