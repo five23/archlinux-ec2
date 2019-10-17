@@ -4,8 +4,8 @@ set -x
 set -e
 
 # Install gdisk on the Debian system, so we can partition the extra disk (i.e.
-# EBS volume)
-DEBIAN_FRONTEND=noninteractive sudo apt-get install -y gdisk
+# EBS volume), might already be installed on latest Debian AMIs.
+sudo which sgdisk || DEBIAN_FRONTEND=noninteractive sudo apt-get install -y gdisk
 
 # Partition the extra disk (EBS volume). The name is known because it is
 # defined in the packer config.  We create a BIOS partition for GRUB (since GPT
