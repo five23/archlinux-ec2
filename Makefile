@@ -19,7 +19,7 @@ AWS_SUBNET      ?= subnet-1234abcd
 
 # The source AMI is the Debian AMI used to boot the builder VM. The ID depends
 # on the region, see https://wiki.debian.org/Cloud/AmazonEC2Image/
-SOURCE_AMI      ?= ami-0211a849817dcceca
+SOURCE_AMI      ?= ami-02498d1ddb8cc6a86
 
 # A name for your AMI. Constraints: 3-128 alphanumeric characters, parentheses
 # (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-),
