@@ -7,6 +7,10 @@
 # Credentials file" approach outlined here:
 # https://www.packer.io/docs/builders/amazon.html
 
+# Either change the following variables in the Makefile, or pass them in
+# through the environment, for example by creating an env file and running
+# `set -a && source settings.env && set +a && make ami`.
+
 # The AWS region/vpc/subnet in which to build the AMI. If you want the AMI to
 # be build for multiple regions, please edit the packer config itself.
 AWS_REGION      ?= eu-west-1
