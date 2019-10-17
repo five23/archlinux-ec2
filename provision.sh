@@ -39,7 +39,7 @@ sudo mount /dev/xvdf2 arch/mnt
 
 # By running `sudo chroot arch ...` we now have access to a fully funtional Arch system.
 # Bootstrap a minimal system onto the empty partition.
-sudo chroot arch pacstrap -c /mnt base grub lsb-release python2 sudo openssh net-tools binutils
+sudo chroot arch pacstrap -c /mnt base grub lsb-release python2 sudo openssh net-tools binutils linux
 sudo chroot arch genfstab -U /mnt | sudo tee arch/mnt/etc/fstab
 
 # Set up a proper locale. Feel free to adjust to your liking. See the Arch
