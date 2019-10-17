@@ -25,11 +25,6 @@ mkdir arch
 cd arch && sudo tar xpzf /tmp/archbase.tar.gz
 cd -
 
-# We will chroot into this basic system, and networking has to work inside it.
-# Set up a random nameserver for that. Could also use the current host's
-# setting if needed (access to private DNS resolvers or such).
-echo "nameserver 9.9.9.9" | sudo tee arch/etc/resolv.conf
-
 # Chroot preparations. Pacman requires the chroot root to be a mount point, so
 # bind mount it. The rest is for devices and other kernel access (networking,
 # disks, ...). Arch-chroot does this for you, but for regular chroot we need to
@@ -39,6 +34,7 @@ sudo mount --bind arch arch
 sudo mount --bind /proc arch/proc
 sudo mount --bind /sys arch/sys
 sudo mount --bind /dev arch/dev
+sudo mount --bind /etc/resolv.conf arch/etc/resolv.conf
 sudo mount /dev/xvdf2 arch/mnt
 
 # By running `sudo chroot arch ...` we now have access to a fully funtional Arch system.
@@ -125,6 +121,7 @@ sudo chroot arch ln -sf /run/systemd/resolve/stub-resolv.conf /mnt/etc/resolv.co
 # Done. Clean up and exit.
 sudo sync
 sleep 3
+sudo umount arch/etc/resolv.conf
 sudo umount arch/mnt
 sudo umount arch/proc
 sudo umount arch/sys
