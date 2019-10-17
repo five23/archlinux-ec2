@@ -55,6 +55,7 @@ echo "archec2" | sudo tee -a arch/mnt/etc/hostname
 sudo cp arch/*.pkg.tar.xz arch/mnt/
 sudo chroot arch arch-chroot /mnt pacman -U --noconfirm /cloud-init.pkg.tar.xz
 sudo chroot arch arch-chroot /mnt pacman -U --noconfirm /growpart.pkg.tar.xz
+sudo chroot arch arch-chroot /mnt pacman -U --noconfirm /netplan.pkg.tar.xz
 sudo rm arch/mnt/*.pkg.tar.xz
 
 # Enable the growpart service. This will resize both the main partition as well
@@ -74,49 +75,18 @@ sudo chroot arch arch-chroot /mnt grub-install --target=i386-pc --recheck /dev/x
 sudo chroot arch arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
 #
-# Network config - use only one of the netctl or systemd-networkd sections!
+# Network config
 #
 
-# The cloud-init Arch module uses netctl for network configuration. However, in
-# it's current state, cloud-init on Arch does not actually handle the network
-# config properly. In terms of functionality, the netctl setup is slightly less
-# flexible - you need to know the exact interfaces you want to bring up in
-# advance (as opposed to using wildcards, see systemd-networkd setup for
-# comparison). Note that the network config will result in failure if you try
-# to bring up a non-existing interface. This also currently makes the netctl
-# approach incompatible with enhanced networking (ENA) instance types, as the
-# driver will rename the interface to ensX.
-#
-# As such, use the netctl setup if you understand these limitations and know
-# you can live with them. The plus side is better compatibility if you plan to
-# use (near-)identical images in other cloud environments where the network is
-# configured by cloud-init (like OpenStack).
-
-# BEGIN Network config - netctl section
-#sudo tee arch/mnt/etc/netctl/default <<EOF
-#Interface=eth0
-#Connection=ethernet
-#IP=dhcp
-#EOF
-#sudo chroot arch arch-chroot /mnt netctl enable default
-# END Network config - netctl section
-
-# Using systemd-networkd allows for greater flexibility - you can use the same
-# AMI for instances with different number of network interfaces, it will just
-# work. If you use this, make sure not to mix it with netctl later on!
-
-# BEGIN Network config - systemd-networkd section
-sudo tee arch/mnt/etc/systemd/network/default.network <<EOF
-[Match]
-Name=e*
-
-[Network]
-DHCP=yes
-EOF
+# The cloud-init Arch module uses netctl for network configuration by default.
+# However, in it's current state, it does not work very well. Because of that,
+# starting with cloud-init 19.2, cloud-init will prefer using netplan to render
+# the network config. Netplan renders a systemd-networkd config, and we
+# explicitly installed it in this project, so we simply need to enable
+# systemd-networkd. Cloud-init/netplan will handle all the rest.
 sudo chroot arch arch-chroot /mnt systemctl enable systemd-networkd.service
 sudo chroot arch arch-chroot /mnt systemctl enable systemd-resolved.service
 sudo chroot arch ln -sf /run/systemd/resolve/stub-resolv.conf /mnt/etc/resolv.conf
-# END Network config - systemd-networkd section
 
 # Done. Clean up and exit.
 sudo sync

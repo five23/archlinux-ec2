@@ -122,20 +122,12 @@ Carefully read through the Makefile and change all the variables at the top to
 your liking. The comments in the file should guide you, but it's mostly setting
 up the specifics of your AWS environment. 
 
-### Pick a network manager (optional)
-
-The provision script sets up systemd-networkd by default, but netctl is also
-available. If you have strong opinions about these matters, look for the
-relevant parts in the provision script. The comments have some hints for
-certain use cases. You can easily comment out one solution and uncomment the
-other. Never use both, of course.
-
 ###  Build AUR packages
 
-Even though they are all entirely optional, we will add two packages from AUR
-to our final system in order to make the result more usable as a general
-purpose AMI. In order to this, we will build that packages from source and
-include them in the tarball.
+Even though they are - strictly speaking - optional, we will add three packages
+from AUR to our final system in order to make the result more usable as a
+general purpose AMI. In order to this, we will build that packages from source
+and include them in the tarball.
 
 #### growpart
 
@@ -156,6 +148,13 @@ can log in with the key pair that we specify when launching an instance (more
 on that later). While this can be achieved without cloud-init, installing it
 will unlock other features commonly used (such as executing a script on
 start-up that was passed to the instance as "user data").
+
+#### netplan
+
+[Netplan](https://netplan.io) is a generic network configuration renderer used
+by cloud-init to render a systemd-networkd configuration. Without this, you
+would have to bake the network configuration into the AMI itself, which would
+make it a lot less versatile.
 
 #### Building
 
@@ -189,11 +188,12 @@ If everything was successful, you have an almost vanilla Arch Linux AMI that
 should cover the most common use cases:
 
  * Networking hardware supported on most common instance types
- * The network is configured via DHCP (the default)
+ * The network is configured by cloud-init and netplan, even sophisticated
+   configurations should work out of the box
  * The root file system will be resized to the size of the instances primary
    EBS volume on first launch
- * The key you select can be used to log in as root on the instance (make sure
-   the network ACLs allow SSH)
+ * The key you select can be used to log in as user "arch" on the instance
+   (make sure the network ACLs allow SSH)
 
 There is most likely a bunch of advanced stuff that will not work out of the
 box with this AMI.  But if you have read and understood the source, you should
