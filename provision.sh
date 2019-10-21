@@ -55,13 +55,8 @@ echo "archec2" | sudo tee -a arch/mnt/etc/hostname
 sudo cp arch/*.pkg.tar.xz arch/mnt/
 sudo chroot arch arch-chroot /mnt pacman -U --noconfirm /growpart.pkg.tar.xz
 sudo chroot arch arch-chroot /mnt pacman -U --noconfirm /netplan.pkg.tar.xz
+sudo mv arch/archlinux.cloud.cfg arch/mnt/etc/cloud/cloud.cfg
 sudo rm arch/mnt/*.pkg.tar.xz
-
-# Enable the growpart service. This will resize both the main partition as well
-# as the file system it contains to use all available space. Without this, the
-# main file system would always only be ~4GB, even if you start an instance
-# with larger EBS volumes attached.
-sudo chroot arch arch-chroot /mnt systemctl enable growpartfs@-
 
 # Enable cloud-init services. This will set the hostname, but also do more
 # advanced things like setting up the SSH key that you select for your
