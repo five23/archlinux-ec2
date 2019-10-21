@@ -124,10 +124,10 @@ up the specifics of your AWS environment.
 
 ###  Build AUR packages
 
-Even though they are - strictly speaking - optional, we will add three packages
+Even though they are - strictly speaking - optional, we will add two packages
 from AUR to our final system in order to make the result more usable as a
-general purpose AMI. In order to this, we will build that packages from source
-and include them in the tarball.
+general purpose AMI. In order to do this, we will build those packages from
+source and include them in the tarball.
 
 #### growpart
 
@@ -138,16 +138,6 @@ with 10GB storage, the disk image still contains the main partition of ~4GB.
 To make the additional storage available, the partition as well as the file
 system it contains needs to be resized to fill all available space. This is
 what growpart does.
-
-#### cloud-init
-
-[Cloud-init](https://cloud-init.io) is a piece of software that performs
-certain start-up tasks typically required in cloud environments. The most
-important one for this context is that it automatically sets up ssh so that we
-can log in with the key pair that we specify when launching an instance (more
-on that later). While this can be achieved without cloud-init, installing it
-will unlock other features commonly used (such as executing a script on
-start-up that was passed to the instance as "user data").
 
 #### netplan
 

@@ -42,7 +42,7 @@ TMP     = ./target
 PKGS    = ./pkgs
 
 # If you add or remove packages here, also add/remove them in provision.sh
-PACKAGES = $(PKGS)/cloud-init.pkg.tar.xz $(PKGS)/growpart.pkg.tar.xz $(PKGS)/netplan.pkg.tar.xz
+PACKAGES = $(PKGS)/growpart.pkg.tar.xz $(PKGS)/netplan.pkg.tar.xz
 
 # End of variables. Feel free to study the rest, but it "should" just work...
 

@@ -39,7 +39,7 @@ sudo mount /dev/xvdf2 arch/mnt
 
 # By running `sudo chroot arch ...` we now have access to a fully funtional Arch system.
 # Bootstrap a minimal system onto the empty partition.
-sudo chroot arch pacstrap -c /mnt base grub lsb-release python2 sudo openssh net-tools binutils linux inetutils
+sudo chroot arch pacstrap -c /mnt base grub lsb-release python2 sudo openssh net-tools binutils linux inetutils cloud-init
 sudo chroot arch genfstab -U /mnt | sudo tee arch/mnt/etc/fstab
 
 # Set up a proper locale. Feel free to adjust to your liking. See the Arch
@@ -53,7 +53,6 @@ echo "archec2" | sudo tee -a arch/mnt/etc/hostname
 
 # Install the AUR packages on the new system.
 sudo cp arch/*.pkg.tar.xz arch/mnt/
-sudo chroot arch arch-chroot /mnt pacman -U --noconfirm /cloud-init.pkg.tar.xz
 sudo chroot arch arch-chroot /mnt pacman -U --noconfirm /growpart.pkg.tar.xz
 sudo chroot arch arch-chroot /mnt pacman -U --noconfirm /netplan.pkg.tar.xz
 sudo rm arch/mnt/*.pkg.tar.xz
