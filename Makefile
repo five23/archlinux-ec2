@@ -65,7 +65,6 @@ $(TARBALL): $(PACKAGES)
 	arch-chroot $(TMP) locale-gen
 	mount --bind $(TMP) $(TMP)
 	cp $(PKGS)/*.pkg.tar.xz $(TMP)/
-	cp archlinux.cloud.cfg $(TMP)/
 	sync; sleep 1
 	umount $(TMP)
 	tar czf $@ -C $(TMP) .
