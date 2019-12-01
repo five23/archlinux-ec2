@@ -124,10 +124,10 @@ up the specifics of your AWS environment.
 
 ###  Build AUR packages
 
-Even though they are - strictly speaking - optional, we will add two packages
-from AUR to our final system in order to make the result more usable as a
-general purpose AMI. In order to do this, we will build those packages from
-source and include them in the tarball.
+Even though it is - strictly speaking - optional, we will add a package from
+AUR to our final system in order to make the result more usable as a general
+purpose AMI. In order to do this, we will build this packages from source and
+include it in the tarball.
 
 #### growpart
 
@@ -138,13 +138,6 @@ with 10GB storage, the disk image still contains the main partition of ~4GB.
 To make the additional storage available, the partition as well as the file
 system it contains needs to be resized to fill all available space. This is
 what growpart does.
-
-#### netplan
-
-[Netplan](https://netplan.io) is a generic network configuration renderer used
-by cloud-init to render a systemd-networkd configuration. Without this, you
-would have to bake the network configuration into the AMI itself, which would
-make it a lot less versatile.
 
 #### Building
 
