@@ -40,9 +40,10 @@ MAKEPKG         ?= makepkg
 TARBALL = archbase.tar.gz
 TMP     = ./target
 PKGS    = ./pkgs
+PKGEXT  = pkg.tar.zst
 
 # If you add or remove packages here, also add/remove them in provision.sh
-PACKAGES = $(PKGS)/growpart.pkg.tar.xz
+PACKAGES = $(PKGS)/growpart.$(PKGEXT)
 
 # End of variables. Feel free to study the rest, but it "should" just work...
 
@@ -50,13 +51,13 @@ tarball: $(TARBALL)
 
 packages: $(PACKAGES)
 
-$(PKGS)/%.pkg.tar.xz:
+$(PKGS)/%.$(PKGEXT):
 	mkdir -p "$(PKGS)"
 	cd "$(PKGS)" && ( test -d "$*" || git clone https://aur.archlinux.org/$*.git )
-	rm -f "$(PKGS)/$*/$*-*.pkg.tar.xz"
+	rm -f "$(PKGS)/$*/$*-*.$(PKGEXT)"
 	cd "$(PKGS)/$*" && git pull
 	cd "$(PKGS)/$*" && $(MAKEPKG)
-	cp "$(PKGS)/$*/$*-"*".pkg.tar.xz" "$@"
+	cp "$(PKGS)/$*/$*-"*".$(PKGEXT)" "$@"
 
 $(TARBALL): $(PACKAGES)
 	pacstrap -c $(TMP) base base-devel arch-install-scripts sudo 
@@ -64,7 +65,7 @@ $(TARBALL): $(PACKAGES)
 	echo "LANG=en_US.UTF-8" >> $(TMP)/etc/locale.conf
 	arch-chroot $(TMP) locale-gen
 	mount --bind $(TMP) $(TMP)
-	cp $(PKGS)/*.pkg.tar.xz $(TMP)/
+	cp $(PKGS)/*.$(PKGEXT) $(TMP)/
 	sync; sleep 1
 	umount $(TMP)
 	tar czf $@ -C $(TMP) .

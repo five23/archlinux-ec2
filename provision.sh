@@ -52,9 +52,9 @@ sudo chroot arch arch-chroot /mnt locale-gen
 echo "archec2" | sudo tee -a arch/mnt/etc/hostname
 
 # Install the AUR packages on the new system.
-sudo cp arch/*.pkg.tar.xz arch/mnt/
-sudo chroot arch arch-chroot /mnt pacman -U --noconfirm /growpart.pkg.tar.xz
-sudo rm arch/mnt/*.pkg.tar.xz
+sudo cp arch/*.pkg.tar.zst arch/mnt/
+sudo chroot arch arch-chroot /mnt pacman -U --noconfirm /growpart.pkg.tar.zst
+sudo rm arch/mnt/*.pkg.tar.zst
 
 # Enable cloud-init services. This will set the hostname, but also do more
 # advanced things like setting up the SSH key that you select for your
